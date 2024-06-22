@@ -1,13 +1,15 @@
 package dominio.entidades;
 
+import dominio.exceptions.FormatadorContaBancariaException;
+
 import java.math.BigDecimal;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class ContaBancaria {
     private Integer numeroConta;
     private String agencia;
     private String nomeCliente;
+    private BigDecimal saldo;
 
     public void setNumeroConta(Integer numeroConta) {
         this.numeroConta = numeroConta;
@@ -25,14 +27,16 @@ public class ContaBancaria {
         this.saldo = saldo;
     }
 
-    private BigDecimal saldo;
-
-    public ContaBancaria(Integer numeroConta, String agencia, String nomeCliente, BigDecimal saldo) {
-        if(valida(agencia) && valida(numeroConta)){
-         this.nomeCliente = nomeCliente;
-         this.numeroConta = numeroConta;
-         this.agencia = agencia;
-         this.saldo = saldo;
+    public ContaBancaria(Integer numeroConta, String agencia, String nomeCliente, BigDecimal saldo) throws FormatadorContaBancariaException {
+        try {
+            if(valida(agencia) && valida(numeroConta)){
+                this.nomeCliente = nomeCliente;
+                this.numeroConta = numeroConta;
+                this.agencia = agencia;
+                this.saldo = saldo;
+            }
+        } catch (Exception e) {
+            throw new FormatadorContaBancariaException("O valor passado está incosistente do esperado ", e.getCause());
         }
     }
 
@@ -43,6 +47,7 @@ public class ContaBancaria {
     private boolean valida(Integer numeroConta) {
         return Pattern.compile("\\d{4}").matcher(numeroConta.toString()).matches();
     }
+
 
     @Override
     public String toString(){

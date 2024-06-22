@@ -1,11 +1,12 @@
 import dominio.entidades.ContaBancaria;
+import dominio.exceptions.FormatadorContaBancariaException;
 
 import java.math.BigDecimal;
 import java.util.Locale;
 import java.util.Scanner;
 
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws FormatadorContaBancariaException {
 
         Scanner sc = new Scanner(System.in);
         sc.useLocale(Locale.US);
